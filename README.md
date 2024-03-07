@@ -1,3 +1,3 @@
-# Better C
+# Snake
 
-More minimal C template
+Snake using only C
