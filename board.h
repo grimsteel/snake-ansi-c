@@ -1,6 +1,6 @@
 #pragma once
 
-#define BOARD_SIZE 15
+#define BOARD_SIZE 30
 
 typedef enum {
   KEY_LEFT,

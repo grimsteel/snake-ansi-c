@@ -20,7 +20,9 @@ int main() {
 
   drawBoard();
 
-  Snake snake;
+  Snake snake = {
+    .boardStatus = {0}
+  };
   initSnake(&snake, BOARD_SIZE / 2, BOARD_SIZE / 2);
   initPosQueue(&snake.bends);
   mtx_init(&snake.mutex, mtx_plain);

@@ -6,6 +6,23 @@
 #include <threads.h>
 #include <wchar.h>
 
+static void setBoard(Board board, uint8_t x, uint8_t y, bool value) {
+  int idx = y * BOARD_SIZE + x;
+  int arrIdx = idx / 8;
+  int rowIdx = idx % 8;
+
+  if (value) board[arrIdx] |= (1 << rowIdx);
+  else board[arrIdx] &= ~(1 << rowIdx);
+}
+
+static bool getBoard(Board board, uint8_t x, uint8_t y) {
+  int idx = y * BOARD_SIZE + x;
+  int arrIdx = idx / 8;
+  int rowIdx = idx % 8;
+
+  return (board[arrIdx] & (1 << rowIdx)) != 0;
+}
+
 void initSnake(Snake* snake, uint8_t x, uint8_t y) {
   snake->head.x = x;
   snake->head.y = y;
@@ -21,6 +38,7 @@ void initSnake(Snake* snake, uint8_t x, uint8_t y) {
   printf("\e[%d;%dH\e[32m", snake->head.y + 2, snake->head.x + 2);
   for (int i = snake->head.y; i <= snake->tail.y; i++) {
     printf("█\e[D\e[B");
+    setBoard(snake->boardStatus, snake->head.x, i, true);
   }
   fflush(stdout);
 }
@@ -48,6 +66,7 @@ void printPos(Pos* pos, char* c) {
 }
 
 void advanceSnake(Snake* snake) {
+  setBoard(snake->boardStatus, snake->tail.x, snake->tail.y, false);
   printPos(&snake->tail, " ");
   printPos(&snake->head, "█");
 
@@ -69,9 +88,10 @@ void advanceSnake(Snake* snake) {
     popPosQueue(&snake->bends);
   }
 
-  if (snake->head.x >= BOARD_SIZE || snake->head.y >= BOARD_SIZE) {
+  if (snake->head.x >= BOARD_SIZE || snake->head.y >= BOARD_SIZE || getBoard(snake->boardStatus, snake->head.x, snake->head.y)) {
     close(snake->endPipe);
   } else {
+    setBoard(snake->boardStatus, snake->head.x, snake->head.y, true);
     printPos(&snake->head, "▓");
   }
   fflush(stdout);

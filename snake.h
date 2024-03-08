@@ -3,11 +3,14 @@
 #include <stdint.h>
 #include <threads.h>
 #include "posqueue.h"
+#include "board.h"
 
 #define INITIAL_DIR DIR_UP
 #define INITIAL_LENGTH 3
 
-typedef struct {
+typedef uint8_t Board[BOARD_SIZE * BOARD_SIZE / 8 + 1];
+
+typedef struct Snake {
   Pos head;
   Pos tail;
   PosQueue bends;
@@ -15,6 +18,7 @@ typedef struct {
   mtx_t mutex;
   Direction newDir;
   int endPipe;
+  Board boardStatus;
 } Snake;
 
 void initSnake(Snake* snake, uint8_t x, uint8_t y);
