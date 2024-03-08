@@ -7,7 +7,7 @@ SRC=$(wildcard *.c)
 HEADERS=$(wildcard *.h)
 
 main: $(SRC) $(HEADERS)
-	$(CC) $(CFLAGS) $(SRC) -O0 -g -o "$@"
+	$(CC) $(CFLAGS) $(SRC) -g -o "$@"
 
 main-release: $(SRC) $(HEADERS)
 	$(CC) $(CFLAGS) $(SRC) -Os -s -o "$@"

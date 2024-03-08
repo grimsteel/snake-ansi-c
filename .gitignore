@@ -4,3 +4,4 @@ replit.nix
 main
 main-release
 .cache/
+.breakpoints

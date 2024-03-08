@@ -49,18 +49,21 @@ int initializeInput(int* readPipe) {
   return 0;
 }
 
-KeyType getChar(int cancelPipe) {
+KeyType getChar(int cancelPipe, int endPipe) {
   static fd_set read_fds;
   static char inputChar;
 
   FD_ZERO(&read_fds); // clear out the fd set
   FD_SET(STDIN_FILENO, &read_fds); // add stdin
   FD_SET(cancelPipe, &read_fds); // add the cancellation pipe
+  FD_SET(endPipe, &read_fds);
 
-  select(cancelPipe + 1, &read_fds, NULL, NULL, NULL);
+  select(endPipe + 1, &read_fds, NULL, NULL, NULL);
 
   // If the cancel pipe is set, exit
   if (FD_ISSET(cancelPipe, &read_fds)) return KEY_EXIT;
+
+  if (FD_ISSET(endPipe, &read_fds)) return KEY_END;
 
   if (FD_ISSET(STDIN_FILENO, &read_fds) && read(STDIN_FILENO, &inputChar, sizeof(inputChar))) {
     if (inputChar == 'q') return KEY_EXIT;

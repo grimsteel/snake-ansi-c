@@ -24,5 +24,6 @@ void initPosQueue(PosQueue* posQueue);
 void growPosQueue(PosQueue* posQueue);
 void pushPosQueue(PosQueue* posQueue, Pos* pos);
 Pos* peekPosQueue(PosQueue* posQueue);
+Pos* peekPosQueueTop(PosQueue* posQueue);
 void popPosQueue(PosQueue* posQueue);
 void freePosQueue(PosQueue* posQueue);

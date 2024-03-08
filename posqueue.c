@@ -22,6 +22,14 @@ void growPosQueue(PosQueue* posQueue) {
 }
 
 void pushPosQueue(PosQueue* posQueue, Pos* pos) {
+  /*if (posQueue->count > 0) {
+    // Replace the item at the top if the position is the same
+    if (posQueue->values[0].x == pos->x && posQueue->values[1].y == pos->y) {
+      posQueue->values[0].dir = pos->dir;
+      return;
+    }
+  }*/
+  
   if (posQueue->count + 1 > posQueue->capacity) growPosQueue(posQueue);
   posQueue->values[posQueue->count++] = *pos;
 }
@@ -31,11 +39,16 @@ Pos* peekPosQueue(PosQueue* posQueue) {
   else return &posQueue->values[0];
 }
 
+Pos* peekPosQueueTop(PosQueue* posQueue) {
+  if (posQueue->count == 0) return NULL;
+  else return &posQueue->values[posQueue->count - 1];
+}
+
 void popPosQueue(PosQueue* posQueue) {
   // just return the blank element at the beginning 
   if (posQueue->count == 0) return;
   // Shift over
-  memmove(posQueue->values, posQueue->values + 1, sizeof(Pos) * --posQueue->count);
+  memmove(posQueue->values, &posQueue->values[1], sizeof(Pos) * (--posQueue->count));
   // Clear the leftover last el
   posQueue->values[posQueue->count] = (Pos) { 0 };
 }

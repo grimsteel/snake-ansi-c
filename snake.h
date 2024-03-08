@@ -13,6 +13,8 @@ typedef struct {
   PosQueue bends;
   uint8_t length;
   mtx_t mutex;
+  Direction newDir;
+  int endPipe;
 } Snake;
 
 void initSnake(Snake* snake, uint8_t x, uint8_t y);

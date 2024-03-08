@@ -1,6 +1,6 @@
 #pragma once
 
-#define BOARD_SIZE 20
+#define BOARD_SIZE 15
 
 typedef enum {
   KEY_LEFT,
@@ -9,12 +9,13 @@ typedef enum {
   KEY_DOWN,
   KEY_UNKNOWN,
   KEY_EXIT,
+  KEY_END,
   KEY_Y,
   KEY_N
 } KeyType;
 
 int initializeInput(int* readPipe);
-KeyType getChar(int cancelPipe);
+KeyType getChar(int cancelPipe, int endPipe);
 
 void clearScreen();
 void drawBoard();
