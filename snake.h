@@ -19,6 +19,7 @@ typedef struct Snake {
   Direction newDir;
   int endPipe;
   Board boardStatus;
+  Pos applePos;
 } Snake;
 
 void initSnake(Snake* snake, uint8_t x, uint8_t y);
